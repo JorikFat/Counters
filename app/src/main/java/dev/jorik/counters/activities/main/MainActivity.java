@@ -1,5 +1,7 @@
 package dev.jorik.counters.activities.main;
 
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +12,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import java.util.List;
 
 import dev.jorik.counters.R;
+import dev.jorik.counters.activities.simpleCounter.CounterActivity;
 import dev.jorik.counters.entities.SimpleCounter;
+import dev.jorik.counters.utils.SimpleCounterWrapper;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView{
     @InjectPresenter MainPresenter presenter;
@@ -45,5 +49,12 @@ public class MainActivity extends MvpAppCompatActivity implements MainView{
     @Override
     public void updateItem(int position) {
         adapter.updateItem(position);
+    }
+
+    @Override
+    public void openActivity(Parcelable counter) {
+        Intent intent = new Intent(this, CounterActivity.class);
+        intent.putExtra(CounterActivity.COUNTER, counter);
+        startActivity(intent);
     }
 }

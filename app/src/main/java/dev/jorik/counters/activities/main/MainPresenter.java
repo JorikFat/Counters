@@ -9,6 +9,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import dev.jorik.counters.R;
 import dev.jorik.counters.entities.SimpleCounter;
 import dev.jorik.counters.utils.DataSet;
+import dev.jorik.counters.utils.SimpleCounterWrapper;
 
 @InjectViewState
 public class MainPresenter extends MvpPresenter<MainView>
@@ -34,7 +35,8 @@ public class MainPresenter extends MvpPresenter<MainView>
 
     @Override
     public void onClick(int position) {
-        //null
+        SimpleCounterWrapper parcelable = new SimpleCounterWrapper(DataSet.getTempCounter());
+        getViewState().openActivity(parcelable);
     }
 
     @Override

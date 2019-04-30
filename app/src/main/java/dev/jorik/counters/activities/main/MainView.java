@@ -1,5 +1,7 @@
 package dev.jorik.counters.activities.main;
 
+import android.os.Parcelable;
+
 import com.arellomobile.mvp.MvpView;
 
 import java.util.List;
@@ -10,4 +12,5 @@ public interface MainView extends MvpView {
     void loadData(List<SimpleCounter> data);
     void addCounter(SimpleCounter counter);
     void updateItem(int position);
+    void openActivity(Parcelable counter);
 }
