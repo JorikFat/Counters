@@ -12,5 +12,5 @@ public interface MainView extends MvpView {
     void loadData(List<SimpleCounter> data);
     void addCounter(SimpleCounter counter);
     void updateItem(int position);
-    void openActivity(Parcelable counter);
+    void openActivity(int id);
 }

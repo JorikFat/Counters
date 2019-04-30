@@ -60,9 +60,9 @@ public class MainActivity extends MvpAppCompatActivity implements MainView{
     }
 
     @Override
-    public void openActivity(Parcelable counter) {
+    public void openActivity(int id) {
         Intent intent = new Intent(this, CounterActivity.class);
-        intent.putExtra(CounterActivity.COUNTER, counter);
+        intent.putExtra(CounterActivity.COUNTER, id);
         startActivity(intent);
     }
 }

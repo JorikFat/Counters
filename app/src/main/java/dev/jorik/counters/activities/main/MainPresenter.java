@@ -43,8 +43,7 @@ public class MainPresenter extends MvpPresenter<MainView>
 
     @Override
     public void onClick(int position) {
-        SimpleCounterWrapper parcelable = new SimpleCounterWrapper(model.getData().get(position));
-        getViewState().openActivity(parcelable);
+        getViewState().openActivity(position);
     }
 
     @Override
