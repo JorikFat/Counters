@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import dev.jorik.counters.App;
 import dev.jorik.counters.R;
+import dev.jorik.counters.activities.main.create.CreateDialog;
 import dev.jorik.counters.activities.simpleCounter.CounterActivity;
 import dev.jorik.counters.entities.SimpleCounter;
 import dev.jorik.counters.utils.DataSet;
@@ -45,6 +47,11 @@ public class MainActivity extends MvpAppCompatActivity implements MainView{
     }
 
     @Override
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void loadData(List<SimpleCounter> data) {
         adapter.setData(data);
     }
@@ -64,5 +71,12 @@ public class MainActivity extends MvpAppCompatActivity implements MainView{
         Intent intent = new Intent(this, CounterActivity.class);
         intent.putExtra(CounterActivity.COUNTER, id);
         startActivity(intent);
+    }
+
+    @Override
+    public void createCounter() {
+        getSupportFragmentManager().beginTransaction().
+                add(CreateDialog.constructor(presenter), null).
+                commit();
     }
 }

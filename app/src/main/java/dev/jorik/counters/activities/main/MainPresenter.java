@@ -10,6 +10,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import java.util.List;
 
 import dev.jorik.counters.R;
+import dev.jorik.counters.activities.main.create.CreateDialog;
 import dev.jorik.counters.entities.SimpleCounter;
 import dev.jorik.counters.utils.DataSet;
 import dev.jorik.counters.utils.SimpleCounterWrapper;
@@ -18,7 +19,8 @@ import dev.jorik.counters.utils.SimpleCounterWrapper;
 public class MainPresenter extends MvpPresenter<MainView>
     implements
         CounterAdapter.Callback,
-        View.OnClickListener{
+        View.OnClickListener,
+        CreateDialog.Callback {
     private MainModel model;
 
     public MainPresenter(List<SimpleCounter> counters) {
@@ -33,9 +35,7 @@ public class MainPresenter extends MvpPresenter<MainView>
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fab_mainA_add:
-                SimpleCounter counter = DataSet.getTempCounter();
-                model.getData().add(counter);
-                getViewState().updateItem(model.getData().indexOf(counter));
+                getViewState().createCounter();
                 break;
             default:
         }
@@ -59,5 +59,14 @@ public class MainPresenter extends MvpPresenter<MainView>
     @Override
     public void minusClick(int position) {
         model.getData().get(position).degrease();
+    }
+
+    @Override
+    public void result(boolean create) {
+        if (create){
+            getViewState().updateItem(model.getData().size() - 1);
+        } else {
+            getViewState().showToast("creating cancel");
+        }
     }
 }
