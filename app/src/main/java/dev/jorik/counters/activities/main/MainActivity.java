@@ -8,17 +8,25 @@ import android.support.v7.widget.RecyclerView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
+import dev.jorik.counters.App;
 import dev.jorik.counters.R;
 import dev.jorik.counters.activities.simpleCounter.CounterActivity;
 import dev.jorik.counters.entities.SimpleCounter;
+import dev.jorik.counters.utils.DataSet;
 import dev.jorik.counters.utils.SimpleCounterWrapper;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView{
     @InjectPresenter MainPresenter presenter;
     private CounterAdapter adapter;
+
+    @ProvidePresenter
+    MainPresenter providePresenter(){
+        return new MainPresenter(((App) getApplication()).getCounters());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

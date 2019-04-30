@@ -1,10 +1,13 @@
 package dev.jorik.counters.activities.main;
 
+import android.graphics.ColorSpace;
 import android.view.View;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+
+import java.util.List;
 
 import dev.jorik.counters.R;
 import dev.jorik.counters.entities.SimpleCounter;
@@ -16,9 +19,14 @@ public class MainPresenter extends MvpPresenter<MainView>
     implements
         CounterAdapter.Callback,
         View.OnClickListener{
+    private MainModel model;
+
+    public MainPresenter(List<SimpleCounter> counters) {
+        this.model = new MainModel(counters);
+    }
 
     public void viewIsReady(){
-        getViewState().loadData(DataSet.tempList);
+        getViewState().loadData(model.getData());
     }
 
     @Override
@@ -26,8 +34,8 @@ public class MainPresenter extends MvpPresenter<MainView>
         switch (v.getId()){
             case R.id.fab_mainA_add:
                 SimpleCounter counter = DataSet.getTempCounter();
-                DataSet.tempList.add(counter);
-                getViewState().updateItem(DataSet.tempList.indexOf(counter));
+                model.getData().add(counter);
+                getViewState().updateItem(model.getData().indexOf(counter));
                 break;
             default:
         }
@@ -35,22 +43,22 @@ public class MainPresenter extends MvpPresenter<MainView>
 
     @Override
     public void onClick(int position) {
-        SimpleCounterWrapper parcelable = new SimpleCounterWrapper(DataSet.getTempCounter());
+        SimpleCounterWrapper parcelable = new SimpleCounterWrapper(model.getData().get(position));
         getViewState().openActivity(parcelable);
     }
 
     @Override
     public boolean onHold(int position) {
-        return DataSet.tempList.remove(position) != null;
+        return model.getData().remove(position) != null;
     }
 
     @Override
     public void plusClick(int position) {
-        DataSet.tempList.get(position).increase();
+        model.getData().get(position).increase();
     }
 
     @Override
     public void minusClick(int position) {
-        DataSet.tempList.get(position).degrease();
+        model.getData().get(position).degrease();
     }
 }
