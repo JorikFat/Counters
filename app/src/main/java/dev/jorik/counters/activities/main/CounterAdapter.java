@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import dev.jorik.counters.R;
@@ -20,7 +19,6 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.CounterH
 
     public CounterAdapter(Callback callback) {
         this.callback = callback;
-//        data = new ArrayList<>();
     }
 
     @NonNull
@@ -48,9 +46,8 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.CounterH
         notifyDataSetChanged();
     }
 
-    public void addCounter(SimpleCounter counter){
-        data.add(counter);
-        notifyItemInserted(data.indexOf(counter));
+    public void addItem(int position){
+        notifyItemInserted(position);
     }
 
     public void updateItem(int position){
@@ -77,9 +74,7 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.CounterH
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    boolean r = callback.onHold(getAdapterPosition());
-                    notifyItemRemoved(getAdapterPosition());
-                    return r;
+                    return callback.onHold(getAdapterPosition());
                 }
             });
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +88,6 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.CounterH
                 @Override
                 public void onClick(View v) {
                     callback.plusClick(getAdapterPosition());
-                    notifyItemChanged(getAdapterPosition());
                 }
             });
             minus = itemView.findViewById(R.id.btn_counterLI_minus);
@@ -101,7 +95,6 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.CounterH
                 @Override
                 public void onClick(View v) {
                     callback.minusClick(getAdapterPosition());
-                    notifyItemChanged(getAdapterPosition());
                 }
             });
             name = itemView.findViewById(R.id.tv_counterLI_name);

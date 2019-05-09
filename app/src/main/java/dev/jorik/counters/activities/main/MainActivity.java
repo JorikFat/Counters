@@ -1,8 +1,6 @@
 package dev.jorik.counters.activities.main;
 
 import android.content.Intent;
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -18,8 +16,6 @@ import dev.jorik.counters.R;
 import dev.jorik.counters.activities.main.create.CreateDialog;
 import dev.jorik.counters.activities.simpleCounter.CounterActivity;
 import dev.jorik.counters.entities.SimpleCounter;
-import dev.jorik.counters.utils.DataSet;
-import dev.jorik.counters.utils.SimpleCounterWrapper;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView{
     @InjectPresenter MainPresenter presenter;
@@ -27,7 +23,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView{
 
     @ProvidePresenter
     MainPresenter providePresenter(){
-        return new MainPresenter(((App) getApplication()).getCounters());
+        return new MainPresenter(((App) getApplication()).getDatabase());
     }
 
     @Override
@@ -57,13 +53,18 @@ public class MainActivity extends MvpAppCompatActivity implements MainView{
     }
 
     @Override
-    public void addCounter(SimpleCounter counter) {
-        adapter.addCounter(counter);
+    public void addCounter(int position) {
+        adapter.addItem(position);
     }
 
     @Override
     public void updateItem(int position) {
         adapter.updateItem(position);
+    }
+
+    @Override
+    public void removeItem(int position) {
+        adapter.removeItem(position);
     }
 
     @Override

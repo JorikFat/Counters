@@ -1,19 +1,14 @@
 package dev.jorik.counters.activities.main;
 
-import android.graphics.ColorSpace;
 import android.view.View;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.arellomobile.mvp.presenter.InjectPresenter;
-
-import java.util.List;
 
 import dev.jorik.counters.R;
 import dev.jorik.counters.activities.main.create.CreateDialog;
 import dev.jorik.counters.entities.SimpleCounter;
-import dev.jorik.counters.utils.DataSet;
-import dev.jorik.counters.utils.SimpleCounterWrapper;
+import dev.jorik.counters.model.DbHandler;
 
 @InjectViewState
 public class MainPresenter extends MvpPresenter<MainView>
@@ -23,8 +18,8 @@ public class MainPresenter extends MvpPresenter<MainView>
         CreateDialog.Callback {
     private MainModel model;
 
-    public MainPresenter(List<SimpleCounter> counters) {
-        this.model = new MainModel(counters);
+    public MainPresenter(DbHandler database) {
+        this.model = new MainModel(database);
     }
 
     public void viewIsReady(){
@@ -48,23 +43,31 @@ public class MainPresenter extends MvpPresenter<MainView>
 
     @Override
     public boolean onHold(int position) {
-        return model.getData().remove(position) != null;
+        SimpleCounter delCounter = model.getData().remove(position);
+        model.deleteItem(delCounter.getId());
+        getViewState().removeItem(position);
+        return delCounter != null;
     }
 
     @Override
     public void plusClick(int position) {
         model.getData().get(position).increase();
+        model.updateItem(position);
+        getViewState().updateItem(position);
     }
 
     @Override
     public void minusClick(int position) {
         model.getData().get(position).degrease();
+        model.updateItem(position);
+        getViewState().updateItem(position);
     }
 
     @Override
     public void result(boolean create) {
         if (create){
-            getViewState().updateItem(model.getData().size() - 1);
+            model.addLastCounter();
+            getViewState().addCounter(model.getData().size()-1);
         } else {
             getViewState().showToast("creating cancel");
         }

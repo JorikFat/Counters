@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Counters</string>
+    <string name="createDialog_title">Создать счетчик</string>
+    <string name="createDialog_nameHint">Имя счетчика</string>
+    <string name="createDialog_positiveButton">Создать</string>
+    <string name="createDialog_negativeButton">Отмена</string>
 </resources>

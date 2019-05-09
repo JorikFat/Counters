@@ -9,8 +9,9 @@ import dev.jorik.counters.entities.SimpleCounter;
 public interface MainView extends MvpView {
     void showToast(String message);
     void loadData(List<SimpleCounter> data);
-    void addCounter(SimpleCounter counter);
+    void addCounter(int position);
     void updateItem(int position);
+    void removeItem(int position);
     void openActivity(int id);
     void createCounter();
 }

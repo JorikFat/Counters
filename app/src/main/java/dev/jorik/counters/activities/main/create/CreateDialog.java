@@ -7,11 +7,20 @@ import android.widget.EditText;
 
 import com.arellomobile.mvp.MvpAppCompatDialogFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+
+import dev.jorik.counters.App;
+import dev.jorik.counters.R;
 
 public class CreateDialog extends MvpAppCompatDialogFragment implements CreateView{
     @InjectPresenter CreatePresenter presenter;
     private EditText name;
     private Callback callback;
+
+    @ProvidePresenter
+    public CreatePresenter providePresenter(){
+        return new CreatePresenter(((App)getActivity().getApplication()).getDatabase());
+    }
 
     public static CreateDialog constructor(Callback callback){
         CreateDialog dialog = new CreateDialog();
@@ -22,12 +31,12 @@ public class CreateDialog extends MvpAppCompatDialogFragment implements CreateVi
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         name = new EditText(getActivity());
-        name.setHint("Имя счетчика");
+        name.setHint(R.string.createDialog_nameHint);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Создать счетчик");
+        builder.setTitle(R.string.createDialog_title);
         builder.setView(name);
-        builder.setPositiveButton("ok", presenter);
-        builder.setNegativeButton("cancel", presenter);
+        builder.setPositiveButton(R.string.createDialog_positiveButton, presenter);
+        builder.setNegativeButton(R.string.createDialog_negativeButton, presenter);
         return builder.create();
     }
 
@@ -37,17 +46,12 @@ public class CreateDialog extends MvpAppCompatDialogFragment implements CreateVi
 
     @Override
     public void onResult(boolean create) {
-//        if (create){
-//            callback.result(create);
-//        } else {
-//            dismiss();
-//        }
         callback.result(create);
     }
 
     @Override
     public void passName() {
-        presenter.createDialog(this.name.getText().toString());
+        presenter.createCounter(this.name.getText().toString());
     }
 
     public interface Callback{

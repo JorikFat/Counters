@@ -1,6 +1,7 @@
 package dev.jorik.counters.entities;
 
 public class SimpleCounter {
+    private long id;
     private String name;
     private int count;
 
@@ -28,5 +29,13 @@ public class SimpleCounter {
 
     public String getName() {
         return this.name;
+    }
+
+    public long getId(){
+        return id;
+    }
+
+    public void setId(long id){
+        this.id = id;
     }
 }
