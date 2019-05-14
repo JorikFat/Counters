@@ -17,6 +17,7 @@ public class MainModel {
     }
 
     public List<SimpleCounter> getData() {
+        data = database.readAllCounters();
         return data;
     }
 

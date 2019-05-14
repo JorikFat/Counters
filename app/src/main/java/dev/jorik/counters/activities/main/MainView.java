@@ -12,6 +12,6 @@ public interface MainView extends MvpView {
     void addCounter(int position);
     void updateItem(int position);
     void removeItem(int position);
-    void openActivity(int id);
+    void openActivity(long id);
     void createCounter();
 }

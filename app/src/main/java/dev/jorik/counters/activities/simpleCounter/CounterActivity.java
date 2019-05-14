@@ -11,6 +11,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dev.jorik.counters.App;
 import dev.jorik.counters.R;
 import dev.jorik.counters.entities.SimpleCounter;
+import dev.jorik.counters.model.DbHandler;
 import dev.jorik.counters.utils.SimpleCounterWrapper;
 
 public class CounterActivity extends MvpAppCompatActivity implements CounterView{
@@ -20,9 +21,10 @@ public class CounterActivity extends MvpAppCompatActivity implements CounterView
 
     @ProvidePresenter
     public CounterPresenter providePresenter(){
-        int id = getIntent().getIntExtra(COUNTER, -1);
-        SimpleCounter counter = ((App) getApplication()).getCounters().get(id);
-        return new CounterPresenter(counter);
+        long id = getIntent().getLongExtra(COUNTER, -1);
+//        SimpleCounter counter = ((App) getApplication()).getCounters().get(id);
+        DbHandler database = ((App) getApplication()).getDatabase();
+        return new CounterPresenter(database, id);
     }
 
     @Override

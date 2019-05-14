@@ -23,6 +23,7 @@ public class MainPresenter extends MvpPresenter<MainView>
     }
 
     public void viewIsReady(){
+
         getViewState().loadData(model.getData());
     }
 
@@ -38,7 +39,8 @@ public class MainPresenter extends MvpPresenter<MainView>
 
     @Override
     public void onClick(int position) {
-        getViewState().openActivity(position);
+        long id = model.getData().get(position).getId();
+        getViewState().openActivity(id);
     }
 
     @Override

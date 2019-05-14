@@ -7,6 +7,7 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import dev.jorik.counters.R;
 import dev.jorik.counters.entities.SimpleCounter;
+import dev.jorik.counters.model.DbHandler;
 
 @InjectViewState
 public class CounterPresenter extends MvpPresenter<CounterView>
@@ -14,8 +15,8 @@ public class CounterPresenter extends MvpPresenter<CounterView>
         View.OnClickListener{
     private CounterModel model;
 
-    public CounterPresenter(SimpleCounter counter){
-        model = new CounterModel(counter);
+    public CounterPresenter(DbHandler database, long id){
+        model = new CounterModel(database, id);
     }
 
     public void viewIsReady(){
@@ -28,9 +29,11 @@ public class CounterPresenter extends MvpPresenter<CounterView>
         switch (v.getId()){
             case R.id.btn_counterA_minus:
                 model.getCounter().degrease();
+                model.update();
                 break;
             case R.id.btn_counterA_plus:
                 model.getCounter().increase();
+                model.update();
                 break;
         }
         getViewState().updateValue(String.valueOf(model.getCounter().getCount()));

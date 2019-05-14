@@ -68,7 +68,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView{
     }
 
     @Override
-    public void openActivity(int id) {
+    public void openActivity(long id) {
         Intent intent = new Intent(this, CounterActivity.class);
         intent.putExtra(CounterActivity.COUNTER, id);
         startActivity(intent);
